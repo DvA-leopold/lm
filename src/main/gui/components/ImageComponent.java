@@ -1,4 +1,4 @@
-package gui.components;
+package main.gui.components;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -12,7 +12,7 @@ public class ImageComponent extends JComponent {
     protected void paintComponent(Graphics g) {
         BufferedImage image = null;
         try {
-            image = ImageIO.read(new File("E:\\IdeaProjects\\Lumen\\src\\resources\\sagra.tif"));
+            image = ImageIO.read(new File("E:\\IdeaProjects\\Lm\\src\\resources\\light.jpg"));
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -1,4 +1,4 @@
-package gui.menu;
+package main.gui.menu;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -7,7 +7,9 @@ public class MainMenu {
     public MainMenu() {
         menuBar = new JMenuBar();
         initFileMenu();
+        initHelpMenu();
         menuBar.add(fileMenu);
+        menuBar.add(helpMenu);
     }
 
     public JMenuBar getMenu() {
@@ -33,9 +35,10 @@ public class MainMenu {
 
 
     private void initHelpMenu() {
-
+        JMenuItem docMenu = new JMenuItem("docs");
+        helpMenu = new JMenu("Help");
+        helpMenu.add(docMenu);
     }
-
 
     private JMenuBar menuBar;
     private JMenu fileMenu;
