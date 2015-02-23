@@ -1,4 +1,4 @@
-package main.gui.components;
+package gui.components;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

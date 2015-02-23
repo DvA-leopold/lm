@@ -1,7 +1,7 @@
-package main.gui;
+package gui;
 
-import main.gui.components.ImageComponent;
-import main.gui.menu.MainMenu;
+import gui.components.ImageComponent;
+import gui.menu.MainMenu;
 
 import javax.swing.*;
 import java.awt.*;
