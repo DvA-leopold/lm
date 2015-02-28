@@ -1,4 +1,6 @@
-package gui.menu;
+package view.menu;
+
+import reader.TiffReader;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -6,18 +8,22 @@ import java.awt.event.ActionEvent;
 public class MainMenu {
     public MainMenu() {
         menuBar = new JMenuBar();
-        initFileMenu();
-        initHelpMenu();
-        menuBar.add(fileMenu);
-        menuBar.add(helpMenu);
+        menuBar.add(initFileMenu());
+        menuBar.add(initHelpMenu());
     }
 
     public JMenuBar getMenu() {
         return  menuBar;
     }
 
-    private void initFileMenu() {
-        JMenuItem openMenu = new JMenuItem("open");
+    private JMenu initFileMenu() {
+        JMenuItem openMenu = new JMenuItem(new AbstractAction("open") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String filePath = new FileChooser(menuBar.getComponent()).getChosenFilePath();
+                //TiffReader obj = new TiffReader(filePath);
+            }
+        });
         JMenuItem saveMenu = new JMenuItem("save");
         JMenuItem exitMenu = new JMenuItem(new AbstractAction("exit") {
             @Override
@@ -25,22 +31,21 @@ public class MainMenu {
                 System.exit(0);
             }
         });
-        fileMenu = new JMenu("File");
+        JMenu fileMenu = new JMenu("File");
         fileMenu.add(openMenu);
         fileMenu.addSeparator();
         fileMenu.add(saveMenu);
         fileMenu.addSeparator();
         fileMenu.add(exitMenu);
+        return fileMenu;
     }
 
-
-    private void initHelpMenu() {
+    private JMenu initHelpMenu() {
         JMenuItem docMenu = new JMenuItem("docs");
-        helpMenu = new JMenu("Help");
+        JMenu helpMenu = new JMenu("Help");
         helpMenu.add(docMenu);
+        return helpMenu;
     }
 
     private JMenuBar menuBar;
-    private JMenu fileMenu;
-    private JMenu helpMenu;
 }

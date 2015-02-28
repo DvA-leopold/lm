@@ -1,13 +1,15 @@
-package gui;
+package view;
 
-import gui.components.ImageComponent;
-import gui.menu.MainMenu;
+import reader.TiffReader;
+import view.components.ImageComponent;
+import view.menu.MainMenu;
 
+import javax.media.jai.RenderedOp;
 import javax.swing.*;
 import java.awt.*;
 
 public class Frame extends JFrame {
-    public Frame(){
+    public Frame() {
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(0, 0);
         setSize(dimension.getSize());
@@ -19,11 +21,10 @@ public class Frame extends JFrame {
 
     public void init() {
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.setIconImage(new ImageIcon("E:\\IdeaProjects\\Lumen\\src\\resources\\light.jpg").getImage());
+        //this.setIconImage();
         this.setJMenuBar(new MainMenu().getMenu());
-        this.add(new ImageComponent());
+        //this.add(new ImageComponent());
 
         this.setVisible(true);
     }
-
 }

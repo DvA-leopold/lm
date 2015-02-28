@@ -1,4 +1,4 @@
-package gui.components;
+package view.components;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,7 +16,7 @@ public class InfoComponent extends JComponent {
     }
 
     public void initStrings() {
-        infoStrings = new Vector<String>(10);
+        infoStrings = new Vector<>(10);
         infoStrings.add("first One");
         infoStrings.add("second One");
     }
