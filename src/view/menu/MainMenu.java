@@ -1,14 +1,15 @@
 package view.menu;
 
 import reader.TiffReader;
+import view.components.ImageComponent;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
 public class MainMenu {
-    public MainMenu() {
+    public MainMenu(final ImageComponent imageComponent) {
         menuBar = new JMenuBar();
-        menuBar.add(initFileMenu());
+        menuBar.add(initFileMenu(imageComponent));
         menuBar.add(initHelpMenu());
     }
 
@@ -16,12 +17,13 @@ public class MainMenu {
         return  menuBar;
     }
 
-    private JMenu initFileMenu() {
+    private JMenu initFileMenu(ImageComponent imageComponent) {
         JMenuItem openMenu = new JMenuItem(new AbstractAction("open") {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String filePath = new FileChooser(menuBar.getComponent()).getChosenFilePath();
-                //TiffReader obj = new TiffReader(filePath);
+                imageComponent.setImage(new TiffReader(filePath).getImage());
+                imageComponent.repaint();
             }
         });
         JMenuItem saveMenu = new JMenuItem("save");

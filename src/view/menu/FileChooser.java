@@ -10,7 +10,6 @@ public class FileChooser {
         FileNameExtensionFilter nameFilter = new FileNameExtensionFilter("tiff files", "tif", "tiff");
         fileChooser = new JFileChooser();
         fileChooser.setFileFilter(nameFilter);
-
     }
 
     private int fileChooserDialog(Component parent) {
@@ -19,7 +18,6 @@ public class FileChooser {
 
     public String getChosenFilePath() {
         if (fileChooserDialog(component) == JFileChooser.APPROVE_OPTION) {
-            System.out.println("file to open: " + fileChooser.getSelectedFile().getAbsolutePath());
             return fileChooser.getSelectedFile().getAbsolutePath();
         } else {
             return null;

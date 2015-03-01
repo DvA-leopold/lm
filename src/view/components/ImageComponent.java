@@ -1,17 +1,20 @@
 package view.components;
 
-import reader.TiffReader;
-
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
 public class ImageComponent extends JComponent {
     @Override
     protected void paintComponent(Graphics g) {
-        g.drawImage(TiffReader.getImage(), 0, 0, null);
+        if (image != null){
+            g.drawImage(image, 0, 0, null);
+        }
     }
+
+    public void setImage(BufferedImage image) {
+        this.image = image;
+    }
+
+    private BufferedImage image = null;
 }

@@ -20,11 +20,9 @@ public class TiffReader {
             e.printStackTrace();
         }
 
-        ParameterBlock block = new ParameterBlock();
-        block.add(stream);
         TIFFDecodeParam decodeParam = new TIFFDecodeParam();
         decodeParam.setDecodePaletteAsShorts(true);
-        image1 = JAI.create("tiff", block);
+        image1 = JAI.create("tiff", new ParameterBlock().add(stream));
 
         checkDataType(image1.getSampleModel().getDataType());
     }
@@ -52,11 +50,11 @@ public class TiffReader {
         }
     }
 
-    public static BufferedImage getImage() {
+    public BufferedImage getImage() {
         return image2.getAsBufferedImage();
     }
 
     private RenderedOp image1;
-    private static RenderedOp image2;
+    private RenderedOp image2;
     private FileSeekableStream stream;
 }
