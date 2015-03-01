@@ -15,7 +15,7 @@ import java.io.IOException;
 public class TiffReader {
     public TiffReader(String fileName) {
         try {
-            stream = new FileSeekableStream(fileName); //E:\StarkDocs1\frog.tif"
+            stream = new FileSeekableStream(fileName);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -57,6 +57,6 @@ public class TiffReader {
     }
 
     private RenderedOp image1;
-    private static RenderedOp image2 = null;
-    private FileSeekableStream stream = null;
+    private static RenderedOp image2;
+    private FileSeekableStream stream;
 }

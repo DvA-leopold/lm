@@ -11,7 +11,6 @@ import java.util.function.Consumer;
 
 public class Main {
     public static void main(String[] args) {
-        //List<Integer> values = Arrays.asList(1,3,5,7,123,731,314);
         //TiffReader obj = new TiffReader();
         Gui view = new Gui();
     }

@@ -1,11 +1,11 @@
 package view;
 
+import sun.applet.Main;
+import versioning.VersionInfo;
 import view.menu.MainMenu;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
-import java.util.logging.FileHandler;
 
 public class Frame extends JFrame {
     public Frame() {
@@ -21,8 +21,8 @@ public class Frame extends JFrame {
 
     public void init() {
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        System.out.println(System.getProperty("user.dir") + "light.jpg");
-        this.setIconImage(new ImageIcon(System.getProperty("user.dir") + "\\resources\\light.jpg").getImage());
+        this.setIconImage(new ImageIcon(System.getProperty("user.dir") + "\\resources\\icon.jpg").getImage());
+        this.setTitle("Lm " + VersionInfo.getVersion());
         this.setJMenuBar(new MainMenu().getMenu());
         //this.add(new ImageComponent());
 
