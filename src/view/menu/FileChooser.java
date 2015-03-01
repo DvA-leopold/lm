@@ -1,7 +1,5 @@
 package view.menu;
 
-import com.sun.corba.se.impl.io.TypeMismatchException;
-
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;

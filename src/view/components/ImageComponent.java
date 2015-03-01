@@ -12,6 +12,6 @@ import java.io.IOException;
 public class ImageComponent extends JComponent {
     @Override
     protected void paintComponent(Graphics g) {
-        g.drawImage(TiffReader.getImage().getAsBufferedImage(), 0, 0, null);
+        g.drawImage(TiffReader.getImage(), 0, 0, null);
     }
 }

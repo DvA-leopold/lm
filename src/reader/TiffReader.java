@@ -7,6 +7,7 @@ import com.sun.media.jai.codec.TIFFDirectory;
 import javax.media.jai.JAI;
 import javax.media.jai.LookupTableJAI;
 import javax.media.jai.RenderedOp;
+import java.awt.image.BufferedImage;
 import java.awt.image.DataBuffer;
 import java.awt.image.renderable.ParameterBlock;
 import java.io.IOException;
@@ -51,8 +52,8 @@ public class TiffReader {
         }
     }
 
-    public static RenderedOp getImage() {
-        return image2;
+    public static BufferedImage getImage() {
+        return image2.getAsBufferedImage();
     }
 
     private RenderedOp image1;
