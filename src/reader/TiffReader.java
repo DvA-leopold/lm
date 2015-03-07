@@ -1,60 +1,70 @@
 package reader;
 
-import com.sun.media.jai.codec.FileSeekableStream;
-import com.sun.media.jai.codec.TIFFDecodeParam;
-import com.sun.media.jai.codec.TIFFDirectory;
+import com.sun.media.jai.codec.*;
 
-import javax.media.jai.JAI;
-import javax.media.jai.LookupTableJAI;
-import javax.media.jai.RenderedOp;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBuffer;
-import java.awt.image.renderable.ParameterBlock;
+import java.awt.image.*;
 import java.io.IOException;
+import java.util.Hashtable;
 
 public class TiffReader {
-    public TiffReader(String fileName) {
+    public TiffReader() {
+        decoder = null;
+    }
+
+    public void setTiffImage(String tiffImageName) {
         try {
-            stream = new FileSeekableStream(fileName);
+            decoder = ImageCodec.createImageDecoder("tiff", new FileSeekableStream(tiffImageName), null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public BufferedImage getImage(int imageIndex) {
+        RenderedImage image = null;
+        try {
+            image = decoder.decodeAsRenderedImage(imageIndex);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        TIFFDecodeParam decodeParam = new TIFFDecodeParam();
-        decodeParam.setDecodePaletteAsShorts(true);
-        image1 = JAI.create("tiff", new ParameterBlock().add(stream));
-
-        checkDataType(image1.getSampleModel().getDataType());
+        return convertRenderedImage(image);
     }
 
-    private void checkDataType(int dataType) {
-        if (dataType == DataBuffer.TYPE_BYTE) {
-            System.out.println("tiff image is byte ");
-            image2 = image1;
-            try {
-                System.out.println("image directories : " + TIFFDirectory.getNumDirectories(stream));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else if (dataType == DataBuffer.TYPE_SHORT) {
-            System.out.println("tiff image is short ");
-            byte[] tableData = new byte[0x10000];
-            for (int i = 0; i < 0x10000; i++) {
-                tableData[i] = (byte)(i >> 8);
-            }
-            LookupTableJAI table = new LookupTableJAI(tableData);
-            image2 = JAI.create("lookup", image1, table);
-        } else {
-            System.out.println("this tif cannot be displayed: " + dataType);
-            System.exit(0);
+    public int getNumPages() {
+        int decodePages = 100;
+        if (decoder == null) {
+            return decodePages;
         }
+        try {
+            decodePages = decoder.getNumPages();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return decodePages;
     }
 
-    public BufferedImage getImage() {
-        return image2.getAsBufferedImage();
+    private BufferedImage convertRenderedImage(RenderedImage img) {
+        ColorModel cm = img.getColorModel();
+        int width = img.getWidth();
+        int height = img.getHeight();
+
+        Hashtable<String, Object> properties = new Hashtable<>();
+        String[] keys = img.getPropertyNames();
+        if (keys != null) {
+            for (String key : keys) {
+                properties.put(key, img.getProperty(key));
+            }
+        }
+        WritableRaster raster = cm.createCompatibleWritableRaster(width, height);
+        BufferedImage result = new BufferedImage(
+                cm,
+                raster,
+                cm.isAlphaPremultiplied(),
+                properties);
+
+        img.copyData(raster);
+        return result;
     }
 
-    private RenderedOp image1;
-    private RenderedOp image2;
-    private FileSeekableStream stream;
+    private ImageDecoder decoder;
 }

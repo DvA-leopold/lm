@@ -1,15 +1,16 @@
 package view.menu;
 
 import reader.TiffReader;
-import view.components.ImageComponent;
+import view.Frame;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 
 public class MainMenu {
-    public MainMenu(final ImageComponent imageComponent) {
+    public MainMenu(final Frame mainFrame) {
         menuBar = new JMenuBar();
-        menuBar.add(initFileMenu(imageComponent));
+        menuBar.add(initFileMenu(mainFrame));
         menuBar.add(initHelpMenu());
     }
 
@@ -17,13 +18,23 @@ public class MainMenu {
         return  menuBar;
     }
 
-    private JMenu initFileMenu(ImageComponent imageComponent) {
+    //public int getNumTiffPages() {
+    //    return tiffReader.getNumPages();
+    //}
+
+    private JMenu initFileMenu(final Frame mainFrame) {
         JMenuItem openMenu = new JMenuItem(new AbstractAction("open") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String filePath = new FileChooser(menuBar.getComponent()).getChosenFilePath();
-                imageComponent.setImage(new TiffReader(filePath).getImage());
-                imageComponent.repaint();
+                fileChooser = new FileChooser(menuBar.getComponent());
+                mainFrame.setTiffReaderImage(fileChooser.getChosenFilePath());
+                mainFrame.repaintImageComponent(null);
+                mainFrame.repaintScrollbar();
+                //mainFrame.getGraphics().setColor(Color.WHITE);
+                //System.out.println(mainFrame.getGraphics().getColor());
+                //mainFrame.getGraphics().setColor(Color.red);
+                //System.out.println(mainFrame.getGraphics().getColor());
+                //mainFrame.getGraphics().drawString("fuck this cruel world", 100, 100);
             }
         });
         JMenuItem saveMenu = new JMenuItem("save");
@@ -48,6 +59,9 @@ public class MainMenu {
         helpMenu.add(docMenu);
         return helpMenu;
     }
+
+    public FileChooser fileChooser;
+
 
     private JMenuBar menuBar;
 }
