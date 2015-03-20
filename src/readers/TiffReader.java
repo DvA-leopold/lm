@@ -1,4 +1,4 @@
-package reader;
+package readers;
 
 import com.sun.media.jai.codec.*;
 
@@ -26,7 +26,6 @@ public class TiffReader {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return convertRenderedImage(image);
     }
 

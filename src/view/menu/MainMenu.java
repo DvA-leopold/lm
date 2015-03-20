@@ -1,10 +1,8 @@
 package view.menu;
 
-import reader.TiffReader;
 import view.Frame;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 
 public class MainMenu {
@@ -18,18 +16,16 @@ public class MainMenu {
         return  menuBar;
     }
 
-    //public int getNumTiffPages() {
-    //    return tiffReader.getNumPages();
-    //}
-
     private JMenu initFileMenu(final Frame mainFrame) {
         JMenuItem openMenu = new JMenuItem(new AbstractAction("open") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                fileChooser = new FileChooser(menuBar.getComponent());
-                mainFrame.setTiffReaderImage(fileChooser.getChosenFilePath());
+                String filePath = new FileChooser(menuBar.getComponent()).getChosenFilePath();
+                mainFrame.setTiffReaderImage(filePath);
                 mainFrame.repaintImageComponent(null);
                 mainFrame.repaintScrollbar();
+                mainFrame.getTiffMetadata(filePath);
+
                 //mainFrame.getGraphics().setColor(Color.WHITE);
                 //System.out.println(mainFrame.getGraphics().getColor());
                 //mainFrame.getGraphics().setColor(Color.red);
@@ -60,7 +56,7 @@ public class MainMenu {
         return helpMenu;
     }
 
-    public FileChooser fileChooser;
+    //public FileChooser fileChooser;
 
 
     private JMenuBar menuBar;

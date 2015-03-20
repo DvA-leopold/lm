@@ -1,27 +1,42 @@
 package view;
 
 import com.sun.istack.internal.Nullable;
-import reader.TiffReader;
+import readers.MetaDataReader;
+import readers.TiffReader;
 import versioning.VersionInfo;
 import view.components.ImageComponent;
 import view.menu.MainMenu;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
+import java.awt.image.BufferedImage;
 
 public class Frame extends JFrame {
     public Frame() {
-        initMainFrameParts();
+        //backend
+        tiffReader = new TiffReader();
+        metaDataReader = new MetaDataReader();
+        //min frame parts
+        imageComponent = new ImageComponent();
+        menu = new MainMenu(this);
+        scrollbar = new JScrollBar(Adjustable.HORIZONTAL, 0, 1, 0, tiffReader.getNumPages());
+        scrollbar.setVisible(false);
+
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(0, 0);
         setSize(dimension.getSize());
     }
 
     public Frame(int width, int height) {
-        initBackend();
-        initMainFrameParts();
+        //backend
+        tiffReader = new TiffReader();
+        metaDataReader = new MetaDataReader();
+        //min frame parts
+        imageComponent = new ImageComponent();
+        menu = new MainMenu(this);
+        scrollbar = new JScrollBar(Adjustable.HORIZONTAL, 0, 1, 0, tiffReader.getNumPages());
+        scrollbar.setVisible(false);
+
         this.setLocation(100, 100);
         setSize(width, height);
         setScrollbarListener();
@@ -34,12 +49,7 @@ public class Frame extends JFrame {
     }
 
     public void setScrollbarListener() {
-        scrollbar.addAdjustmentListener(new AdjustmentListener() {
-            @Override
-            public void adjustmentValueChanged(AdjustmentEvent e) {
-                repaintImageComponent(scrollbar.getValue());
-            }
-        });
+        scrollbar.addAdjustmentListener(e -> repaintImageComponent(scrollbar.getValue()));
     }
 
     public void setTiffReaderImage(String tiffImageName) {
@@ -55,6 +65,14 @@ public class Frame extends JFrame {
         imageComponent.repaint();
     }
 
+    public void getTiffMetadata(final String imageName) {
+        metaDataReader.readAndDisplayMetadata(imageName);
+    }
+
+    public BufferedImage getImage() {
+        return tiffReader.getImage(0);
+    }
+
     public void init() {
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setIconImage(new ImageIcon(System.getProperty("user.dir") + "\\resources\\lm.png").getImage());
@@ -65,20 +83,10 @@ public class Frame extends JFrame {
         this.setVisible(true);
     }
 
-    private void initMainFrameParts() {
-        imageComponent = new ImageComponent();
-        menu = new MainMenu(this);
-        scrollbar = new JScrollBar(Adjustable.HORIZONTAL, 0, 1, 0, tiffReader.getNumPages());
-        scrollbar.setVisible(false);
-    }
-
-    private void initBackend() {
-        tiffReader = new TiffReader();
-    }
-
     private MainMenu menu;
     private JScrollBar scrollbar;
     private ImageComponent imageComponent;
 
     public TiffReader tiffReader;
+    public MetaDataReader metaDataReader;
 }

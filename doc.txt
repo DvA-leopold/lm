@@ -1,0 +1,39 @@
+Color space and compression scheme:
+TIFF allows for a wide range of different compression schemes and color spaces.
+TIFF ImageWriter contain following compression types:
+CCITT RLE
+- Only applicable for Black and White Images (i.e. bilevel/binary images)
+Modified Huffman compression
+String parameter is: "CCITT RLE"
+CCITT T.4
+- Only applicable for Black and White Images (i.e. bilevel/binary images)
+String parameter is: "CCITT T.4"
+CCITT T.6
+- Only applicable for Black and White Images (i.e. bilevel/binary images).
+String parameter is: "CCITT T.6"
+LZW
+- Lossless Compression
+- Use for maintain quality of image not for compression
+String parameter is: "LZW"
+JPEG
+- Lossy compression
+- Reduced file size to minimum
+- Applicable for grayscale (1-band) and RGB (3-band) images only
+String parameter is: "JPEG"
+ZLib
+- Deflate compression except value.
+PackBits
+- Default lossless compression with RGB color space.
+String parameter is: "PackBits"
+Deflate
+- Lossless compression (same as LZW)
+- Use for maintain quality of image not for compression
+String parameter is: "Deflate"
+EXIF JPEG
+- Regular JPEG compressed image
+TIFF_NO_COMPRESSION
+- TIFF with no compression.
+
+
+
+// попробовать медианную фильтрацию с маленьким окном
