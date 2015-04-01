@@ -1,4 +1,4 @@
-package readers;
+package model.readers;
 
 import com.sun.media.jai.codec.*;
 
@@ -6,12 +6,12 @@ import java.awt.image.*;
 import java.io.IOException;
 import java.util.Hashtable;
 
-public class TiffReader {
-    public TiffReader() {
+public class MultiTiffImageReader {
+    public MultiTiffImageReader() {
         decoder = null;
     }
 
-    public void setTiffImage(String tiffImageName) {
+    public void setDirectoryPath(final String tiffImageName) {
         try {
             decoder = ImageCodec.createImageDecoder("tiff", new FileSeekableStream(tiffImageName), null);
         } catch (IOException e) {
@@ -29,8 +29,8 @@ public class TiffReader {
         return convertRenderedImage(image);
     }
 
-    public int getNumPages() {
-        int decodePages = 100;
+    public int getNumberOfPages() {
+        int decodePages = 0;
         if (decoder == null) {
             return decodePages;
         }

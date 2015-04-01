@@ -1,4 +1,4 @@
-package versioning;
+package model.versioning;
 
 /**
  * class contains version info of this app,
@@ -6,7 +6,7 @@ package versioning;
  */
 public class VersionInfo {
     static {
-        version = "0.1.0";
+        version = "0.2.0";
     }
 
     public static String getVersion() {

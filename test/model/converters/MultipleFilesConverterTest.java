@@ -1,4 +1,4 @@
-package converters;
+package model.converters;
 
 import org.junit.Test;
 

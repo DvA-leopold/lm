@@ -1,14 +1,16 @@
 package view.menu;
 
-import view.Frame;
+import controller.Controller;
+import controller.commands.OpenFileCommand;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
-public class MainMenu {
-    public MainMenu(final Frame mainFrame) {
+public class TopBarMenu {
+    public TopBarMenu(final Controller controller) {
+        this.controller = controller;
         menuBar = new JMenuBar();
-        menuBar.add(initFileMenu(mainFrame));
+        menuBar.add(initFileMenu());
         menuBar.add(initHelpMenu());
     }
 
@@ -16,16 +18,13 @@ public class MainMenu {
         return  menuBar;
     }
 
-    private JMenu initFileMenu(final Frame mainFrame) {
+    private JMenu initFileMenu() {
         JMenuItem openMenu = new JMenuItem(new AbstractAction("open") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String filePath = new FileChooser(menuBar.getComponent()).getChosenFilePath();
-                mainFrame.setTiffReaderImage(filePath);
-                mainFrame.repaintImageComponent(null);
-                mainFrame.repaintScrollbar();
-                mainFrame.getTiffMetadata(filePath);
+                controller.runCommand(new OpenFileCommand());
 
+                //mainFrame.getTiffMetadata(filePath);
                 //mainFrame.getGraphics().setColor(Color.WHITE);
                 //System.out.println(mainFrame.getGraphics().getColor());
                 //mainFrame.getGraphics().setColor(Color.red);
@@ -33,7 +32,13 @@ public class MainMenu {
                 //mainFrame.getGraphics().drawString("fuck this cruel world", 100, 100);
             }
         });
-        JMenuItem saveMenu = new JMenuItem("save");
+        JMenuItem saveMenu = new JMenuItem(new AbstractAction("save") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+
         JMenuItem exitMenu = new JMenuItem(new AbstractAction("exit") {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -56,8 +61,6 @@ public class MainMenu {
         return helpMenu;
     }
 
-    //public FileChooser fileChooser;
-
-
+    private final Controller controller;
     private JMenuBar menuBar;
 }

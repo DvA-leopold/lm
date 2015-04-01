@@ -1,4 +1,4 @@
-package readers;
+package model.readers;
 
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -31,7 +31,7 @@ public class MetaDataReader {
                 // pick the first available ImageReader
                 ImageReader reader = readers.next();
 
-                // attach source to the readers
+                // attach source to the model.readers
                 reader.setInput(iis, true);
 
                 // read metadata of first image
