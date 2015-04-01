@@ -10,14 +10,16 @@ public class FileChooser {
         FileNameExtensionFilter nameFilter = new FileNameExtensionFilter("tiff files", "tif", "tiff");
         fileChooser = new JFileChooser();
         fileChooser.setFileFilter(nameFilter);
-        fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        //fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
     }
 
     private int fileChooserDialog(Component parent) {
         return fileChooser.showDialog(parent, "open");
     }
 
-    public String getChosenFilePath() {
+    public String getChosenFilePath(String dialogString, int selectionMode) {
+        fileChooser.setFileSelectionMode(selectionMode);
+        fileChooser.setDialogTitle(dialogString);
         if (fileChooserDialog(component) == JFileChooser.APPROVE_OPTION) {
             setVisible(false);
             return fileChooser.getSelectedFile().getAbsolutePath();

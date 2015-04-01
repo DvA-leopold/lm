@@ -1,6 +1,7 @@
 package view.menu;
 
 import controller.Controller;
+import controller.commands.ConvertCommand;
 import controller.commands.OpenFileCommand;
 
 import javax.swing.*;
@@ -22,7 +23,11 @@ public class TopBarMenu {
         JMenuItem openMenu = new JMenuItem(new AbstractAction("open") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                controller.runCommand(new OpenFileCommand());
+                try {
+                    controller.runCommand(controller.getCommand(OpenFileCommand.class));
+                } catch (IllegalAccessException | InstantiationException e1) {
+                    e1.printStackTrace();
+                }
 
                 //mainFrame.getTiffMetadata(filePath);
                 //mainFrame.getGraphics().setColor(Color.WHITE);
@@ -35,10 +40,13 @@ public class TopBarMenu {
         JMenuItem saveMenu = new JMenuItem(new AbstractAction("save") {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                try {
+                    controller.runCommand(controller.getCommand(ConvertCommand.class));
+                } catch (IllegalAccessException | InstantiationException e1) {
+                    e1.printStackTrace();
+                }
             }
         });
-
         JMenuItem exitMenu = new JMenuItem(new AbstractAction("exit") {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -47,7 +55,6 @@ public class TopBarMenu {
         });
         JMenu fileMenu = new JMenu("File");
         fileMenu.add(openMenu);
-        fileMenu.addSeparator();
         fileMenu.add(saveMenu);
         fileMenu.addSeparator();
         fileMenu.add(exitMenu);

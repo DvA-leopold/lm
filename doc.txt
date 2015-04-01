@@ -35,5 +35,10 @@ TIFF_NO_COMPRESSION
 - TIFF with no compression.
 
 
+результаты тестов
+(Command) commandClass.newInstance()
+
+109mb - без компресси. 76 - deflate, 92 - LZW. packbits - только rgb
+
 
 // попробовать медианную фильтрацию с маленьким окном

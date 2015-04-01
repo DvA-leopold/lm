@@ -1,6 +1,7 @@
 package model;
 
 import com.sun.istack.internal.Nullable;
+import model.converters.MultipleFilesConverter;
 import model.readers.MultiTiffImageReader;
 import model.readers.SimpleImageReader;
 
@@ -11,15 +12,24 @@ public class ProjectModel {
     public ProjectModel() {
         multiTiffImageReader = new MultiTiffImageReader();
         simpleImageReader = new SimpleImageReader();
+        multipleFilesConverter = new MultipleFilesConverter();
         /*metaDataReader = new MetaDataReader();*/
     }
 
-    public void setPath(final String path) {
-        this.isFilepathDirectory = new File(path).isDirectory();
+    public void convertImage(final String pathToImages,
+                             final String pathToSave,
+                             final String outputFileName) {
+        multipleFilesConverter.convert(pathToImages, pathToSave, outputFileName);
+    }
+
+    public void setInputPath(final String inputPath) {
+        this.isFilepathDirectory = new File(inputPath).isDirectory();
         if (isFilepathDirectory) {
-            simpleImageReader.setDirectoryPath(path);
+            simpleImageReader.setDirectoryPath(inputPath);
+            this.inputPath = inputPath;
         } else {
-            multiTiffImageReader.setDirectoryPath(path);
+            multiTiffImageReader.setDirectoryPath(inputPath);
+            this.inputPath = null;
         }
     }
 
@@ -40,8 +50,23 @@ public class ProjectModel {
         }
     }
 
+    public boolean getFilepathFlag() {
+        return isFilepathDirectory;
+    }
+
+    public String getInputPath() {
+        return inputPath;
+    }
+
+    public int getProgress() {
+        return multipleFilesConverter.getProgress();
+    }
+
     private boolean isFilepathDirectory;
+    private String inputPath = null;
+
     private MultiTiffImageReader multiTiffImageReader;
+    private MultipleFilesConverter multipleFilesConverter;
     private SimpleImageReader simpleImageReader;
     /*private MetaDataReader metaDataReader;*/
 }

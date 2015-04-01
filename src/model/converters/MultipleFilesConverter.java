@@ -19,18 +19,19 @@ public class MultipleFilesConverter {
         }
     }
 
-    public boolean convert(final String pathToImages, final String outputFileName) {
+    public boolean convert(final String pathToImages,
+                           final String savePathFolder,
+                           final String outputFileName) {
         try {
             File[] files = verifyDirectoryAndImages(pathToImages);
-            initOutputStream(pathToImages, outputFileName);
-            setImageCompression(ImageWriteParam.MODE_DEFAULT, "PackBits", 0.5f);
+            initOutputStream(savePathFolder, outputFileName);
+            setImageCompression(ImageWriteParam.MODE_EXPLICIT, "LZW", 0.5f);
             createVoluminousTiff(files, outputFileName);
             flushAndFree();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return false;
         }
-
         return true;
     }
 
@@ -55,7 +56,7 @@ public class MultipleFilesConverter {
      * @param pathToImages принимает <code>File</code> который указывает на текущую директорию
      * @return возвращает отсортированный массив всех файлов в данной дирректории
      * @throws FileNotFoundException в случае если файлов в папке нет,
-     * или или дирректория не существует выброситься это исключение
+     *                               или дирректория не существует
      */
     private File[] verifyDirectoryAndImages(final String pathToImages) throws FileNotFoundException {
         File pathImageDescriptor = new File(pathToImages);
@@ -86,21 +87,15 @@ public class MultipleFilesConverter {
         writer = ImageIO.getImageWritersByFormatName("tiff").next();
     }
 
-    private void initOutputStream(final String pathToImages,
+    private void initOutputStream(final String savePath,
                                   final String outputFileName) {
-        File outputFile = new File(pathToImages + outputFileName + ".tif");
+        File outputFile = new File(savePath + "/" + outputFileName + ".tif"); //TODO: test this slash
         try {
             ios = ImageIO.createImageOutputStream(outputFile);
         } catch (IOException e) {
             e.printStackTrace();
         }
         writer.setOutput(ios);
-
-        // Set the compression parameters for Tiff image
-        //ImageWriteParam param = writer.getDefaultWriteParam();
-        //param.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
-        //param.setCompressionType("LZW");
-        //param.setCompressionQuality(0.9F);
     }
 
     /**
@@ -111,6 +106,7 @@ public class MultipleFilesConverter {
      */
     private void createVoluminousTiff(final File[] files,
                                       final String outputFileName) {
+        progress = 0;
         for (int i = 0; i < files.length; i++) {
             InputStream fis = null;
             BufferedImage image = null;
@@ -118,6 +114,7 @@ public class MultipleFilesConverter {
             dotIndex = dotIndex > 0 ? dotIndex : files[i].getName().length();
             String fileName = files[i].getName().substring(0, dotIndex);
             if (!fileName.equalsIgnoreCase(outputFileName)) {
+                progress++;
                 try {
                     fis = new BufferedInputStream(new FileInputStream(files[i]));
                     image = ImageIO.read(fis);
@@ -155,6 +152,11 @@ public class MultipleFilesConverter {
         }
     }
 
+    public int getProgress() {
+        return progress;
+    }
+
+    private int progress;
     private ImageOutputStream ios = null;
     private ImageWriter writer;
     private ImageWriteParam imageParams;

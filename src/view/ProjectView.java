@@ -23,10 +23,17 @@ public class ProjectView extends JFrame {
 
     public ProjectView(int width, int height, final Controller controller) {
         this.controller = controller;
+        imageComponent = new ImageComponent();
+        topBarMenu = new TopBarMenu(controller);
+        scrollbar = new JScrollBar(Adjustable.HORIZONTAL, 0, 1, 0, 1);
+        scrollbar.setVisible(false);
         fileChooser = new FileChooser(this.getComponent(0));
         fileChooser.setVisible(false);
-        initFrameParts();
-        this.setLocation(100, 100);
+        progressMonitor = new ProgressMonitor(
+                this.getComponent(0),
+                "Progress...",
+                "this string updated everytime", 0, 1);
+        setLocation(100, 100);
         setSize(width, height);
     }
     /*
@@ -36,19 +43,12 @@ public class ProjectView extends JFrame {
     */
     public void init() {
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.setIconImage(new ImageIcon(System.getProperty("user.dir") + "\\resources\\lm.png").getImage());
+        this.setIconImage(new ImageIcon(System.getProperty("user.dir") + "/resources/lm.png").getImage());
         this.setTitle("Lm " + VersionInfo.getVersion());
         this.setJMenuBar(topBarMenu.getMenu());
         this.add(scrollbar).setSize(this.getWidth() - 15, 20);
         this.add(imageComponent);
         this.setVisible(true);
-    }
-
-    private void initFrameParts() {
-        imageComponent = new ImageComponent();
-        topBarMenu = new TopBarMenu(controller);
-        scrollbar = new JScrollBar(Adjustable.HORIZONTAL, 0, 1, 0, 1);
-        scrollbar.setVisible(false);
     }
 
     public void repaintScrollbar(int maximum) {
@@ -58,8 +58,13 @@ public class ProjectView extends JFrame {
     }
 
     public void setScrollbarListener() {
-        //TODO: garbage collector troubles. make command hash
-        scrollbar.addAdjustmentListener(e -> controller.runCommand(new ScrollCommand()));
+        scrollbar.addAdjustmentListener(e -> {
+            try {
+                controller.runCommand(controller.getCommand(ScrollCommand.class));
+            } catch (IllegalAccessException | InstantiationException e1) {
+                e1.printStackTrace();
+            }
+        });
     }
 
     public void repaintImageComponent(final BufferedImage image) {
@@ -71,15 +76,17 @@ public class ProjectView extends JFrame {
         return scrollbar.getValue();
     }
 
-    public String openWithFileChooser() {
+    public String getFileChooserPath(String chooserDialog, int selectionMode) {
         fileChooser.setVisible(true);
-        return fileChooser.getChosenFilePath();
+        return fileChooser.getChosenFilePath(chooserDialog, selectionMode);
     }
 
     private TopBarMenu topBarMenu;
-    private FileChooser fileChooser;
     private JScrollBar scrollbar;
     private ImageComponent imageComponent;
+
+    private FileChooser fileChooser;
+    public ProgressMonitor progressMonitor;
 
     private final Controller controller;
 }

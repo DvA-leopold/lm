@@ -5,8 +5,8 @@ import view.ProjectView;
 
 public final class ScrollCommand implements Command {
     @Override
-    public void execute(ProjectModel model, ProjectView projectView) {
-        int scrollValue = projectView.getScrollValue();
-        projectView.repaintImageComponent(model.getImage(scrollValue));
+    public void execute(ProjectModel model, ProjectView view) {
+        int scrollValue = view.getScrollValue();
+        view.repaintImageComponent(model.getImage(scrollValue));
     }
 }
