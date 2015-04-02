@@ -5,7 +5,7 @@ import view.ProjectView;
 
 import javax.swing.*;
 
-public class ConvertCommand implements Command {
+public final class ConvertCommand implements Command {
     @Override
     public void execute(ProjectModel model, ProjectView view) {
         while (model.getInputPath() == null) { // TODO: mb we do not need this while loop
@@ -13,9 +13,14 @@ public class ConvertCommand implements Command {
         }
         String savePath = view.getFileChooserPath("save as", JFileChooser.DIRECTORIES_ONLY);
         String imageName = "converted";
-        model.convertImage(model.getInputPath(), savePath, imageName);
+        //view.progressMonitor.setMaximum(model.getNumberOfImages());
+        //view.progressMonitor.setProgress(model.getProgress());
 
-        view.progressMonitor.setMaximum(model.getNumberOfImages());
-        view.progressMonitor.setProgress(model.getProgress());
+        boolean isConvertingOver = model.convertImage(model.getInputPath(), savePath, imageName);
+/*
+        if (isConvertingOver) {
+            view.progressMonitor.close();
+        }
+*/
     }
 }

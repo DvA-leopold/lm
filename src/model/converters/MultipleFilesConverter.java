@@ -74,7 +74,6 @@ public class MultipleFilesConverter {
                 Integer secondDigit = Integer.parseInt(o2.getName().replaceAll("[^0-9]", ""));
                 return firstDigit.compareTo(secondDigit);
             });
-
             return files;
         }
     }
@@ -87,8 +86,7 @@ public class MultipleFilesConverter {
         writer = ImageIO.getImageWritersByFormatName("tiff").next();
     }
 
-    private void initOutputStream(final String savePath,
-                                  final String outputFileName) {
+    private void initOutputStream(final String savePath, final String outputFileName) {
         File outputFile = new File(savePath + "/" + outputFileName + ".tif"); //TODO: test this slash
         try {
             ios = ImageIO.createImageOutputStream(outputFile);
@@ -104,39 +102,27 @@ public class MultipleFilesConverter {
      * @param files массив файлов, которые нужно записать в многотомный тиф
      * @param outputFileName имя многотомного тифа
      */
-    private void createVoluminousTiff(final File[] files,
-                                      final String outputFileName) {
-        progress = 0;
+    private void createVoluminousTiff(final File[] files, final String outputFileName) {
         for (int i = 0; i < files.length; i++) {
-            InputStream fis = null;
-            BufferedImage image = null;
+            InputStream fis;
+            BufferedImage image;
             int dotIndex = files[i].getName().lastIndexOf('.');
             dotIndex = dotIndex > 0 ? dotIndex : files[i].getName().length();
             String fileName = files[i].getName().substring(0, dotIndex);
             if (!fileName.equalsIgnoreCase(outputFileName)) {
-                progress++;
                 try {
                     fis = new BufferedInputStream(new FileInputStream(files[i]));
                     image = ImageIO.read(fis);
-                    IIOImage img = new IIOImage(image, null, null); //здесь можно записывать кастомную metadata
+                    IIOImage img = new IIOImage(image, null, null); //write custom netadata here
                     if (i == 0) {
                         writer.write(null, img, imageParams);
                     } else {
                         writer.writeInsert(-1, img, imageParams);
                     }
+                    fis.close();
+                    image.flush();
                 } catch (IOException e) {
                     e.printStackTrace();
-                } finally {
-                    if (image != null) {
-                        image.flush();
-                    }
-                    if (fis != null) {
-                        try {
-                            fis.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
                 }
             }
         }
@@ -152,11 +138,6 @@ public class MultipleFilesConverter {
         }
     }
 
-    public int getProgress() {
-        return progress;
-    }
-
-    private int progress;
     private ImageOutputStream ios = null;
     private ImageWriter writer;
     private ImageWriteParam imageParams;

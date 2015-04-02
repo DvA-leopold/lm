@@ -6,12 +6,8 @@ package model.versioning;
  */
 public class VersionInfo {
     static {
-        version = "0.2.0";
+        VERSION = "0.2.2";
     }
 
-    public static String getVersion() {
-        return version;
-    }
-
-    private static final String version;
+    public static final String VERSION;
 }

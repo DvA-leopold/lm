@@ -16,10 +16,8 @@ public class ProjectModel {
         /*metaDataReader = new MetaDataReader();*/
     }
 
-    public void convertImage(final String pathToImages,
-                             final String pathToSave,
-                             final String outputFileName) {
-        multipleFilesConverter.convert(pathToImages, pathToSave, outputFileName);
+    public boolean convertImage(String pathToImages, String pathToSave, String outputFileName) {
+        return multipleFilesConverter.convert(pathToImages, pathToSave, outputFileName);
     }
 
     public void setInputPath(final String inputPath) {
@@ -56,10 +54,6 @@ public class ProjectModel {
 
     public String getInputPath() {
         return inputPath;
-    }
-
-    public int getProgress() {
-        return multipleFilesConverter.getProgress();
     }
 
     private boolean isFilepathDirectory;

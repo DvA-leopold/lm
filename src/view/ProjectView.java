@@ -12,15 +12,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class ProjectView extends JFrame {
-/*
-    public ProjectView() {
-        initFrameParts();
-        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setLocation(0, 0);
-        setSize(dimension.getSize());
-    }
-*/
-
     public ProjectView(int width, int height, final Controller controller) {
         this.controller = controller;
         imageComponent = new ImageComponent();
@@ -32,15 +23,11 @@ public class ProjectView extends JFrame {
         progressMonitor = new ProgressMonitor(
                 this.getComponent(0),
                 "Progress...",
-                "this string updated everytime", 0, 1);
+                "this string updated every time", 0, 1);
         setLocation(100, 100);
         setSize(width, height);
     }
-    /*
-        public void getTiffMetadata(final String imageName) {
-            metaDataReader.readAndDisplayMetadata(imageName);
-        }
-    */
+
     public void init() {
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setIconImage(new ImageIcon(System.getProperty("user.dir") + "/resources/lm.png").getImage());
@@ -86,7 +73,7 @@ public class ProjectView extends JFrame {
     private ImageComponent imageComponent;
 
     private FileChooser fileChooser;
-    public ProgressMonitor progressMonitor;
+    private ProgressMonitor progressMonitor;
 
     private final Controller controller;
 }

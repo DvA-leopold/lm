@@ -28,6 +28,7 @@ public class SimpleImageReader {
         if (files == null || files.length == 0) {
             throw new FileNotFoundException("No image files to process ");
         } else {
+            // TODO: маски для сохарниения
             Arrays.sort(files, (o1, o2) -> {
                 Integer firstFileNumber = Integer.parseInt(o1.getName().replaceAll("[^0-9]", ""));
                 Integer secondFileNumber = Integer.parseInt(o2.getName().replaceAll("[^0-9]", ""));

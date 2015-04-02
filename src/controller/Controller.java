@@ -1,18 +1,21 @@
 package controller;
 
 import controller.commands.Command;
+import controller.listeners.Listener;
 import model.ProjectModel;
 import view.ProjectView;
 
 import java.awt.*;
-import java.util.HashMap;
+import java.util.*;
+import java.util.List;
 
 public class Controller {
     public void run() {
-        commandHash = new HashMap<>(3);
+        commandPool = new HashMap<>(3);
+        listOfListeners = new LinkedList<>();
         projectModel = new ProjectModel();
         EventQueue.invokeLater(() -> {
-            projectView = new ProjectView(500, 500, this);
+            projectView = new ProjectView(600, 600, this);
             projectView.init();
         });
     }
@@ -23,18 +26,15 @@ public class Controller {
 
     public Command getCommand(Class commandClass)
             throws IllegalAccessException, InstantiationException {
-        if (commandHash.containsKey(commandClass)) {
-            System.out.println("GET");
-            return commandHash.get(commandClass);
-        } else {
-            System.out.println("MISS");
-            commandHash.put(commandClass, (Command) commandClass.newInstance());
-            return commandHash.get(commandClass);
+        if (!commandPool.containsKey(commandClass)) {
+            commandPool.put(commandClass, (Command) commandClass.newInstance());
         }
+        return commandPool.get(commandClass);
     }
 
     private ProjectModel projectModel;
     private ProjectView projectView;
 
-    private HashMap<Class, Command> commandHash;
+    private List<Listener> listOfListeners;
+    private HashMap<Class, Command> commandPool;
 }
