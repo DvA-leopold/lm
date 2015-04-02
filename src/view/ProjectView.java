@@ -31,7 +31,7 @@ public class ProjectView extends JFrame {
     public void init() {
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setIconImage(new ImageIcon(System.getProperty("user.dir") + "/resources/lm.png").getImage());
-        this.setTitle("Lm " + VersionInfo.getVersion());
+        this.setTitle("Lm " + VersionInfo.VERSION);
         this.setJMenuBar(topBarMenu.getMenu());
         this.add(scrollbar).setSize(this.getWidth() - 15, 20);
         this.add(imageComponent);

@@ -10,7 +10,6 @@ public class FileChooser {
         FileNameExtensionFilter nameFilter = new FileNameExtensionFilter("tiff files", "tif", "tiff");
         fileChooser = new JFileChooser();
         fileChooser.setFileFilter(nameFilter);
-        //fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
     }
 
     private int fileChooserDialog(Component parent) {
