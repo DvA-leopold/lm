@@ -22,7 +22,7 @@ public class MetaDataReader {
         typeSpecifier = ImageTypeSpecifier.createFromBufferedImageType(BufferedImage.TYPE_INT_RGB);
     }
 
-    public void readAndDisplayMetadata(final String imageName) {
+    public void readAndDisplayMetadata(String imageName) {
         try {
             ImageInputStream iis = ImageIO.createImageInputStream(new File(imageName));
             Iterator<ImageReader> readers = ImageIO.getImageReaders(iis);

@@ -19,9 +19,7 @@ public class MultipleFilesConverter {
         }
     }
 
-    public boolean convert(final String pathToImages,
-                           final String savePathFolder,
-                           final String outputFileName) {
+    public boolean convert(String pathToImages, String savePathFolder, String outputFileName) {
         try {
             File[] files = verifyDirectoryAndImages(pathToImages);
             initOutputStream(savePathFolder, outputFileName);
@@ -43,9 +41,7 @@ public class MultipleFilesConverter {
      * @param imageCompression тип компрессии <code>LZW, JPEG, PackBits, Deflate</code>
      * @param compressionQuality значение лежащее в пределах от 0.f до 1.f
      */
-    public void setImageCompression(int compressionMode,
-                                    String imageCompression,
-                                    float compressionQuality) {
+    public void setImageCompression(int compressionMode, String imageCompression, float compressionQuality) {
         imageParams = writer.getDefaultWriteParam();
         imageParams.setCompressionMode(compressionMode);
         imageParams.setCompressionType(imageCompression);
@@ -58,7 +54,7 @@ public class MultipleFilesConverter {
      * @throws FileNotFoundException в случае если файлов в папке нет,
      *                               или дирректория не существует
      */
-    private File[] verifyDirectoryAndImages(final String pathToImages) throws FileNotFoundException {
+    private File[] verifyDirectoryAndImages(String pathToImages) throws FileNotFoundException {
         File pathImageDescriptor = new File(pathToImages);
         if (!pathImageDescriptor.isDirectory()) {
             throw new FileNotFoundException(
@@ -102,7 +98,7 @@ public class MultipleFilesConverter {
      * @param files массив файлов, которые нужно записать в многотомный тиф
      * @param outputFileName имя многотомного тифа
      */
-    private void createVoluminousTiff(final File[] files, final String outputFileName) {
+    private void createVoluminousTiff(final File[] files, String outputFileName) {
         for (int i = 0; i < files.length; i++) {
             InputStream fis;
             BufferedImage image;
