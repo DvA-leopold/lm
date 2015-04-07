@@ -54,6 +54,10 @@ public class ProjectView extends JFrame {
         });
     }
 
+    public ProgressMonitor getProgressMonitor() {
+        return progressMonitor;
+    }
+
     public void repaintImageComponent(final BufferedImage image) {
         imageComponent.setImage(image);
         imageComponent.repaint();

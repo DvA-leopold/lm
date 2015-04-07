@@ -5,6 +5,7 @@ import model.converters.MultipleFilesConverter;
 import model.readers.MultiTiffImageReader;
 import model.readers.SimpleImageReader;
 
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
@@ -56,11 +57,16 @@ public class ProjectModel {
         return inputPath;
     }
 
+    public MultipleFilesConverter getMultipleFilesConverter() {
+        return multipleFilesConverter;
+    }
+
     private boolean isFilepathDirectory;
     private String inputPath = null;
 
     private MultiTiffImageReader multiTiffImageReader;
     private MultipleFilesConverter multipleFilesConverter;
     private SimpleImageReader simpleImageReader;
+
     /*private MetaDataReader metaDataReader;*/
 }

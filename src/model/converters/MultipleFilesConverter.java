@@ -5,6 +5,8 @@ import javax.imageio.ImageIO;
 import javax.imageio.ImageWriteParam;
 import javax.imageio.ImageWriter;
 import javax.imageio.stream.ImageOutputStream;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.Arrays;
@@ -48,6 +50,10 @@ public class MultipleFilesConverter {
         imageParams.setCompressionQuality(compressionQuality);
     }
 
+    public void setActionListener(ActionListener actionListener) {
+        this.actionListener = actionListener;
+    }
+
     /**
      * @param pathToImages принимает <code>File</code> который указывает на текущую директорию
      * @return возвращает отсортированный массив всех файлов в данной дирректории
@@ -83,7 +89,7 @@ public class MultipleFilesConverter {
     }
 
     private void initOutputStream(final String savePath, final String outputFileName) {
-        File outputFile = new File(savePath + "/" + outputFileName + ".tif"); //TODO: test this slash
+        File outputFile = new File(savePath + "/" + outputFileName + ".tif");
         try {
             ios = ImageIO.createImageOutputStream(outputFile);
         } catch (IOException e) {
@@ -99,22 +105,24 @@ public class MultipleFilesConverter {
      * @param outputFileName имя многотомного тифа
      */
     private void createVoluminousTiff(final File[] files, String outputFileName) {
-        for (int i = 0; i < files.length; i++) {
-            InputStream fis;
-            BufferedImage image;
+        //TODO: skip not png or bmp files
+        InputStream fis;
+        BufferedImage image;
+        for (int i = 0; i < files.length; ++i) {
             int dotIndex = files[i].getName().lastIndexOf('.');
             dotIndex = dotIndex > 0 ? dotIndex : files[i].getName().length();
             String fileName = files[i].getName().substring(0, dotIndex);
-            if (!fileName.equalsIgnoreCase(outputFileName)) {
+            if (!fileName.equalsIgnoreCase(outputFileName)) { //TODO: fix this check
                 try {
                     fis = new BufferedInputStream(new FileInputStream(files[i]));
                     image = ImageIO.read(fis);
-                    IIOImage img = new IIOImage(image, null, null); //write custom netadata here
+                    IIOImage img = new IIOImage(image, null, null);
                     if (i == 0) {
                         writer.write(null, img, imageParams);
                     } else {
                         writer.writeInsert(-1, img, imageParams);
                     }
+                    actionListener.actionPerformed(new ActionEvent(this, 1, "", i));
                     fis.close();
                     image.flush();
                 } catch (IOException e) {
@@ -133,6 +141,8 @@ public class MultipleFilesConverter {
             e.printStackTrace();
         }
     }
+
+    private ActionListener actionListener;
 
     private ImageOutputStream ios = null;
     private ImageWriter writer;
