@@ -4,6 +4,7 @@ import controller.Controller;
 import controller.commands.ScrollCommand;
 import model.versioning.VersionInfo;
 import view.components.ImageComponent;
+import view.components.InfoComponent;
 import view.menu.FileChooser;
 import view.menu.TopBarMenu;
 
@@ -15,6 +16,7 @@ public class ProjectView extends JFrame {
     public ProjectView(int width, int height, final Controller controller) {
         this.controller = controller;
         imageComponent = new ImageComponent();
+        infoComponent = new InfoComponent();
         topBarMenu = new TopBarMenu(controller);
         scrollbar = new JScrollBar(Adjustable.HORIZONTAL, 0, 1, 0, 1);
         scrollbar.setVisible(false);
@@ -61,12 +63,18 @@ public class ProjectView extends JFrame {
     public void repaintImageComponent(final BufferedImage image) {
         imageComponent.setImage(image);
         imageComponent.repaint();
+        infoComponent.paintComponent(imageComponent.getGraphics());
     }
 
     public int getScrollValue() {
         return scrollbar.getValue();
     }
 
+    /**
+     * @param chooserDialog name of the chooser window, displays on top of it
+     * @param selectionMode mode <code>JFileChooser</code> param constant
+     * @return open chooser dialog to choose file or directory, depend on <code>selectionMode<code/> to open
+     */
     public String getFileChooserPath(String chooserDialog, int selectionMode) {
         fileChooser.setVisible(true);
         return fileChooser.getChosenFilePath(chooserDialog, selectionMode);
@@ -75,6 +83,7 @@ public class ProjectView extends JFrame {
     private TopBarMenu topBarMenu;
     private JScrollBar scrollbar;
     private ImageComponent imageComponent;
+    private InfoComponent infoComponent;
 
     private FileChooser fileChooser;
     private ProgressMonitor progressMonitor;

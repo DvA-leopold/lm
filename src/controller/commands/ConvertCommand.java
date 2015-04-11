@@ -15,6 +15,7 @@ public final class ConvertCommand implements Command {
         String savePath = view.getFileChooserPath("save as", JFileChooser.DIRECTORIES_ONLY);
         String imageName = "converted";
 
+        //TODO: mb add thread join
         new Thread(() -> {
             view.getProgressMonitor().setMaximum(model.getNumberOfImages());
             model.getMultipleFilesConverter().setActionListener(new AbstractAction() {

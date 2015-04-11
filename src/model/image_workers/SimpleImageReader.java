@@ -1,4 +1,4 @@
-package model.readers;
+package model.image_workers;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

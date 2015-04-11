@@ -1,4 +1,4 @@
-package model.readers;
+package model.image_workers;
 
 import com.sun.media.jai.codec.*;
 

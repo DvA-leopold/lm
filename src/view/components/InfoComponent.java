@@ -9,7 +9,7 @@ public class InfoComponent extends JComponent {
     public void paintComponent(Graphics g) {
         g.setFont(new Font("Serif", Font.PLAIN, fontSize));
         initStrings();
-        for(String string : infoStrings){
+        for(String string : infoStrings) {
             fontSize+=fontSize;
             g.drawString(string, 40, 20 + fontSize);
         }

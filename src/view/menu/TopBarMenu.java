@@ -1,6 +1,7 @@
 package view.menu;
 
 import controller.Controller;
+import controller.commands.ReadMetadataCommand;
 import controller.commands.ConvertCommand;
 import controller.commands.OpenFileCommand;
 
@@ -25,16 +26,10 @@ public class TopBarMenu {
             public void actionPerformed(ActionEvent e) {
                 try {
                     controller.runCommand(controller.getCommand(OpenFileCommand.class));
+                    controller.runCommand(controller.getCommand(ReadMetadataCommand.class));
                 } catch (IllegalAccessException | InstantiationException e1) {
                     e1.printStackTrace();
                 }
-
-                //mainFrame.getTiffMetadata(filePath);
-                //mainFrame.getGraphics().setColor(Color.WHITE);
-                //System.out.println(mainFrame.getGraphics().getColor());
-                //mainFrame.getGraphics().setColor(Color.red);
-                //System.out.println(mainFrame.getGraphics().getColor());
-                //mainFrame.getGraphics().drawString("fuck this cruel world", 100, 100);
             }
         });
         JMenuItem saveMenu = new JMenuItem(new AbstractAction("save") {
