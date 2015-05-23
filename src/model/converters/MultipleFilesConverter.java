@@ -25,7 +25,7 @@ public class MultipleFilesConverter {
         try {
             File[] files = verifyDirectoryAndImages(pathToImages);
             initOutputStream(savePathFolder, outputFileName);
-            setImageCompression(ImageWriteParam.MODE_EXPLICIT, "LZW", 0.5f);
+            setImageCompression(ImageWriteParam.MODE_EXPLICIT, "PackBits", 0.9f);
             createVoluminousTiff(files, outputFileName);
             flushAndFree();
         } catch (FileNotFoundException e) {
@@ -105,14 +105,13 @@ public class MultipleFilesConverter {
      * @param outputFileName имя многотомного тифа
      */
     private void createVoluminousTiff(final File[] files, String outputFileName) {
-        //TODO: skip not png or bmp files
         InputStream fis;
         BufferedImage image;
         for (int i = 0; i < files.length; ++i) {
             int dotIndex = files[i].getName().lastIndexOf('.');
             dotIndex = dotIndex > 0 ? dotIndex : files[i].getName().length();
             String fileName = files[i].getName().substring(0, dotIndex);
-            if (!fileName.equalsIgnoreCase(outputFileName)) { //TODO: fix this check
+            if (!fileName.equalsIgnoreCase(outputFileName)) { //TODO: add garbage files check
                 try {
                     fis = new BufferedInputStream(new FileInputStream(files[i]));
                     image = ImageIO.read(fis);
@@ -122,7 +121,7 @@ public class MultipleFilesConverter {
                     } else {
                         writer.writeInsert(-1, img, imageParams);
                     }
-                    actionListener.actionPerformed(new ActionEvent(this, 1, "", i));
+                    actionListener.actionPerformed(new ActionEvent(this, this.hashCode(), "", i));
                     fis.close();
                     image.flush();
                 } catch (IOException e) {
@@ -141,6 +140,7 @@ public class MultipleFilesConverter {
             e.printStackTrace();
         }
     }
+
 
     private ActionListener actionListener;
 

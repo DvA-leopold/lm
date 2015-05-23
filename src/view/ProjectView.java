@@ -4,7 +4,6 @@ import controller.Controller;
 import controller.commands.ScrollCommand;
 import model.versioning.VersionInfo;
 import view.components.ImageComponent;
-import view.components.InfoComponent;
 import view.menu.FileChooser;
 import view.menu.TopBarMenu;
 
@@ -16,7 +15,6 @@ public class ProjectView extends JFrame {
     public ProjectView(int width, int height, final Controller controller) {
         this.controller = controller;
         imageComponent = new ImageComponent();
-        infoComponent = new InfoComponent();
         topBarMenu = new TopBarMenu(controller);
         scrollbar = new JScrollBar(Adjustable.HORIZONTAL, 0, 1, 0, 1);
         scrollbar.setVisible(false);
@@ -25,7 +23,7 @@ public class ProjectView extends JFrame {
         progressMonitor = new ProgressMonitor(
                 this.getComponent(0),
                 "Progress...",
-                "this string updated every time", 0, 1);
+                "...", 0, 1);
         setLocation(100, 100);
         setSize(width, height);
     }
@@ -63,7 +61,6 @@ public class ProjectView extends JFrame {
     public void repaintImageComponent(final BufferedImage image) {
         imageComponent.setImage(image);
         imageComponent.repaint();
-        infoComponent.paintComponent(imageComponent.getGraphics());
     }
 
     public int getScrollValue() {
@@ -80,13 +77,27 @@ public class ProjectView extends JFrame {
         return fileChooser.getChosenFilePath(chooserDialog, selectionMode);
     }
 
+    public Object showMetadataDialog(String initialMetadataString) {
+        return JOptionPane.showInputDialog(
+                this.getComponent(0),
+                "current metadata in the image\n",
+                "Metadata write window",
+                JOptionPane.PLAIN_MESSAGE, null, null,
+                initialMetadataString);
+    }
+
+    public ImageComponent getImageComponent() {
+        return imageComponent;
+    }
+
+
     private TopBarMenu topBarMenu;
     private JScrollBar scrollbar;
     private ImageComponent imageComponent;
-    private InfoComponent infoComponent;
 
     private FileChooser fileChooser;
     private ProgressMonitor progressMonitor;
+    //private OptionWindow optionWindow;
 
-    private final Controller controller;
+    final private Controller controller;
 }

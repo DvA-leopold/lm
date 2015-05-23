@@ -5,6 +5,7 @@ import model.converters.MultipleFilesConverter;
 import model.image_workers.MultiTiffImageReader;
 import model.image_workers.SimpleImageReader;
 import model.metadata_workers.MetaDataReader;
+import model.metadata_workers.MetaDataWriter;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -15,25 +16,30 @@ public class ProjectModel {
         simpleImageReader = new SimpleImageReader();
         multipleFilesConverter = new MultipleFilesConverter();
         metaDataReader = new MetaDataReader();
+        metaDataWriter = new MetaDataWriter();
     }
 
     public boolean convertImage(String pathToImages, String pathToSave, String outputFileName) {
         return multipleFilesConverter.convert(pathToImages, pathToSave, outputFileName);
     }
 
-    public void readMetadata(final String fileName) {
-        metaDataReader.readAndDisplayMetadata(fileName);
+    public MetaDataReader getMetaDataReader() {
+        return metaDataReader;
     }
 
+    public MetaDataWriter getMetaDataWriter() {
+        return metaDataWriter;
+    }
+
+    //TODO: проверить inputPath
     public void setInputPath(final String inputPath) {
         this.isFilepathDirectory = new File(inputPath).isDirectory();
         if (isFilepathDirectory) {
             simpleImageReader.setDirectoryPath(inputPath);
-            this.inputPath = null;
         } else {
             multiTiffImageReader.setDirectoryPath(inputPath);
-            this.inputPath = inputPath;
         }
+        this.inputPath = inputPath;
     }
 
     public int getNumberOfImages() {
@@ -56,7 +62,7 @@ public class ProjectModel {
     /**
      * @return <code>true</code> if file path is a directory, <code>false</code> respectively
      */
-    public boolean getFilepathFlag() {
+    public boolean filePathIsDirectory() {
         return isFilepathDirectory;
     }
 
@@ -68,6 +74,7 @@ public class ProjectModel {
         return multipleFilesConverter;
     }
 
+
     private boolean isFilepathDirectory;
     private String inputPath;
 
@@ -76,4 +83,5 @@ public class ProjectModel {
     private SimpleImageReader simpleImageReader;
 
     private MetaDataReader metaDataReader;
+    private MetaDataWriter metaDataWriter;
 }
