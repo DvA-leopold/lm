@@ -23,7 +23,7 @@ public class ProjectView extends JFrame {
         progressMonitor = new ProgressMonitor(
                 this.getComponent(0),
                 "Progress...",
-                "this string updated every time", 0, 1);
+                "...", 0, 1);
         setLocation(100, 100);
         setSize(width, height);
     }
@@ -67,10 +67,29 @@ public class ProjectView extends JFrame {
         return scrollbar.getValue();
     }
 
+    /**
+     * @param chooserDialog name of the chooser window, displays on top of it
+     * @param selectionMode mode <code>JFileChooser</code> param constant
+     * @return open chooser dialog to choose file or directory, depend on <code>selectionMode<code/> to open
+     */
     public String getFileChooserPath(String chooserDialog, int selectionMode) {
         fileChooser.setVisible(true);
         return fileChooser.getChosenFilePath(chooserDialog, selectionMode);
     }
+
+    public Object showMetadataDialog(String initialMetadataString) {
+        return JOptionPane.showInputDialog(
+                this.getComponent(0),
+                "current metadata in the image\n",
+                "Metadata write window",
+                JOptionPane.PLAIN_MESSAGE, null, null,
+                initialMetadataString);
+    }
+
+    public ImageComponent getImageComponent() {
+        return imageComponent;
+    }
+
 
     private TopBarMenu topBarMenu;
     private JScrollBar scrollbar;
@@ -78,6 +97,7 @@ public class ProjectView extends JFrame {
 
     private FileChooser fileChooser;
     private ProgressMonitor progressMonitor;
+    //private OptionWindow optionWindow;
 
-    private final Controller controller;
+    final private Controller controller;
 }

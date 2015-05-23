@@ -1,4 +1,4 @@
-package model.readers;
+package model.image_workers;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -29,12 +29,11 @@ public class SimpleImageReader {
             throw new FileNotFoundException("No image files to process ");
         } else {
             // TODO: маски для сохарниения
-            Arrays.sort(files, (o1, o2) -> {
-                Integer firstFileNumber = Integer.parseInt(o1.getName().replaceAll("[^0-9]", ""));
-                Integer secondFileNumber = Integer.parseInt(o2.getName().replaceAll("[^0-9]", ""));
+            Arrays.sort(files, (file1, file2) -> {
+                Integer firstFileNumber = Integer.parseInt(file1.getName().replaceAll("[^0-9]", ""));
+                Integer secondFileNumber = Integer.parseInt(file2.getName().replaceAll("[^0-9]", ""));
                 return firstFileNumber.compareTo(secondFileNumber);
             });
-
             return files;
         }
     }

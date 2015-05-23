@@ -9,7 +9,7 @@ import java.util.*;
 
 public class Controller {
     public void run() {
-        commandPool = new HashMap<>(3);
+        commandPool = new HashMap<>(7);
         projectModel = new ProjectModel();
         EventQueue.invokeLater(() -> {
             projectView = new ProjectView(600, 600, this);
@@ -28,6 +28,7 @@ public class Controller {
         }
         return commandPool.get(commandClass);
     }
+
 
     private ProjectModel projectModel;
     private ProjectView projectView;

@@ -1,4 +1,4 @@
-package model.readers;
+package model.image_workers;
 
 import com.sun.media.jai.codec.*;
 
@@ -64,6 +64,7 @@ public class MultiTiffImageReader {
         img.copyData(raster);
         return result;
     }
+
 
     private ImageDecoder decoder;
 }

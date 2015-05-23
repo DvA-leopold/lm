@@ -2,10 +2,11 @@ package model;
 
 import com.sun.istack.internal.Nullable;
 import model.converters.MultipleFilesConverter;
-import model.readers.MultiTiffImageReader;
-import model.readers.SimpleImageReader;
+import model.image_workers.MultiTiffImageReader;
+import model.image_workers.SimpleImageReader;
+import model.metadata_workers.MetaDataReader;
+import model.metadata_workers.MetaDataWriter;
 
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
@@ -14,22 +15,31 @@ public class ProjectModel {
         multiTiffImageReader = new MultiTiffImageReader();
         simpleImageReader = new SimpleImageReader();
         multipleFilesConverter = new MultipleFilesConverter();
-        /*metaDataReader = new MetaDataReader();*/
+        metaDataReader = new MetaDataReader();
+        metaDataWriter = new MetaDataWriter();
     }
 
     public boolean convertImage(String pathToImages, String pathToSave, String outputFileName) {
         return multipleFilesConverter.convert(pathToImages, pathToSave, outputFileName);
     }
 
+    public MetaDataReader getMetaDataReader() {
+        return metaDataReader;
+    }
+
+    public MetaDataWriter getMetaDataWriter() {
+        return metaDataWriter;
+    }
+
+    //TODO: проверить inputPath
     public void setInputPath(final String inputPath) {
         this.isFilepathDirectory = new File(inputPath).isDirectory();
         if (isFilepathDirectory) {
             simpleImageReader.setDirectoryPath(inputPath);
-            this.inputPath = inputPath;
         } else {
             multiTiffImageReader.setDirectoryPath(inputPath);
-            this.inputPath = null;
         }
+        this.inputPath = inputPath;
     }
 
     public int getNumberOfImages() {
@@ -49,7 +59,10 @@ public class ProjectModel {
         }
     }
 
-    public boolean getFilepathFlag() {
+    /**
+     * @return <code>true</code> if file path is a directory, <code>false</code> respectively
+     */
+    public boolean filePathIsDirectory() {
         return isFilepathDirectory;
     }
 
@@ -61,12 +74,14 @@ public class ProjectModel {
         return multipleFilesConverter;
     }
 
+
     private boolean isFilepathDirectory;
-    private String inputPath = null;
+    private String inputPath;
 
     private MultiTiffImageReader multiTiffImageReader;
     private MultipleFilesConverter multipleFilesConverter;
     private SimpleImageReader simpleImageReader;
 
-    /*private MetaDataReader metaDataReader;*/
+    private MetaDataReader metaDataReader;
+    private MetaDataWriter metaDataWriter;
 }
